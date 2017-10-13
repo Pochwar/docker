@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+#    gitlab:
+#        image: "gitlab/gitlab-ce:latest"
+#        restart: "always"
+#        ports:
+#            - "8000:80"
+#            - "2222:22"
+#        volumes:
+#            - "gitlab_config:/etc/gitlab"
+#            - "gitlab_logs:/var/log/gitlab"
+#            - "./data/gitlab:/var/opt/gitlab"
+    sonarqube:
+        image: "sonarqube"
+        ports:
+            - "9000:9000"
+#        networks:
+#            - "sonarnet"
+        depends_on:
+            - "db"
+        environment:
+            - SONARQUBE_JDBC_URL=jdbc:postgresql://db:5432/sonar
+        volumes:
+            - "sonarqube_conf:/opt/sonarqube/conf"
+            - "./data/sonarqube/data:/opt/sonarqube/data"
+            - "sonarqube_extensions:/opt/sonarqube/extensions"
+            - "sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins"
+    db:
+        image: "postgres"
+#        networks:
+#          - "sonarnet"
+        ports:
+          - "5432:5432"
+        environment:
+          - POSTGRES_USER=sonar
+          - POSTGRES_PASSWORD=sonar
+        volumes:
+          - "postgresql:/var/lib/postgresql"
+          - "./data/postgresql_data:/var/lib/postgresql/data"
+#    jenkins:
+#        image: "jenkins:latest"
+#        ports:
+#            - "5000:8080"
+#        restart: "always"
+#        volumes:
+#            - "./data/jenkins:/var/jenkins_home"
+
+#networks:
+#    sonarnet:
+#        driver: "bridge"
+
+volumes:
+    gitlab_config:
+    gitlab_logs:
+    sonarqube_conf:
+    sonarqube_extensions:
+    sonarqube_bundled-plugins:
+    postgresql:
