@@ -26,8 +26,6 @@ services:
             - "sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins"
     db:
         image: "postgres"
-        ports:
-          - "5432:5432"
         environment:
           - POSTGRES_USER=sonar
           - POSTGRES_PASSWORD=sonar
