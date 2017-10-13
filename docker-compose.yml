@@ -1,22 +1,20 @@
 version: "3"
 
 services:
-#    gitlab:
-#        image: "gitlab/gitlab-ce:latest"
-#        restart: "always"
-#        ports:
-#            - "8000:80"
-#            - "2222:22"
-#        volumes:
-#            - "gitlab_config:/etc/gitlab"
-#            - "gitlab_logs:/var/log/gitlab"
-#            - "./data/gitlab:/var/opt/gitlab"
+    gitlab:
+        image: "gitlab/gitlab-ce:latest"
+        restart: "always"
+        ports:
+            - "8000:80"
+            - "2222:22"
+        volumes:
+            - "gitlab_config:/etc/gitlab"
+            - "gitlab_logs:/var/log/gitlab"
+            - "./data/gitlab:/var/opt/gitlab"
     sonarqube:
         image: "sonarqube"
         ports:
             - "9000:9000"
-#        networks:
-#            - "sonarnet"
         depends_on:
             - "db"
         environment:
@@ -28,8 +26,6 @@ services:
             - "sonarqube_bundled-plugins:/opt/sonarqube/lib/bundled-plugins"
     db:
         image: "postgres"
-#        networks:
-#          - "sonarnet"
         ports:
           - "5432:5432"
         environment:
@@ -38,17 +34,13 @@ services:
         volumes:
           - "postgresql:/var/lib/postgresql"
           - "./data/postgresql_data:/var/lib/postgresql/data"
-#    jenkins:
-#        image: "jenkins:latest"
-#        ports:
-#            - "5000:8080"
-#        restart: "always"
-#        volumes:
-#            - "./data/jenkins:/var/jenkins_home"
-
-#networks:
-#    sonarnet:
-#        driver: "bridge"
+    jenkins:
+        image: "jenkins:latest"
+        ports:
+            - "5000:8080"
+        restart: "always"
+        volumes:
+            - "./data/jenkins:/var/jenkins_home"
 
 volumes:
     gitlab_config:
